@@ -71,6 +71,15 @@
           <button class="demoBtn" data-demo="admin" type="button">
             <b>Admin</b> admin@college.edu / admin123
           </button>
+          <button class="demoBtn" data-demo="dean" type="button">
+            <b>Dean</b> dean@college.edu / dean123
+          </button>
+          <button class="demoBtn" data-demo="registrar" type="button">
+            <b>Registrar</b> registrar@college.edu / registrar123
+          </button>
+          <button class="demoBtn" data-demo="warden" type="button">
+            <b>Warden</b> warden@college.edu / warden123
+          </button>
         </div>
       </div>
     </section>
@@ -96,6 +105,7 @@
           <div class="menu hidden" id="menu">
             <h3>Personal info</h3>
             <dl id="info"></dl>
+            <button id="editProfile" type="button">Edit profile</button>
             <a id="feedbackLink" href="#" target="_blank" rel="noopener"
               >Give feedback (Google Form)</a
             >
@@ -115,6 +125,20 @@
           </div>
           <button class="plus" id="plus" aria-label="Report an issue">+</button>
         </section>
+        <section class="howto" id="howto">
+          <h2>How to report a problem</h2>
+          <ol>
+            <li>Press the <b>+</b> button above.</li>
+            <li>Take or upload a clear photo of the problem (required).</li>
+            <li>Describe what is wrong in a sentence or two.</li>
+            <li>Pick the category that fits best.</li>
+            <li>Choose who to share it with (Dean, Registrar, Professor, Hostel warden or Other).</li>
+            <li>To send it to one particular admin only, type that admin's email. Leave it empty to send it to the main admin.</li>
+            <li>Choose the location, or tap <b>Use my exact location</b>.</li>
+            <li>Press <b>Submit report</b>, then follow it here: Reported, Under process, Solved.</li>
+          </ol>
+          <a class="drive" href="https://drive.google.com/drive/folders/1ktV2irAhZEIlr2CPyAnzhJ-Z4Dl-vKPa" target="_blank" rel="noopener">Don't know where to report? <span>Check out here</span></a>
+        </section>
         <p class="sem" id="semLabel"></p>
         <section class="stats">
           <div class="stat s-new">
@@ -127,7 +151,31 @@
             <b id="cDone">0</b><span>Problems solved</span>
           </div>
         </section>
+        <section id="adminPanel" class="hidden">
+          <h2>Where problems happen most</h2>
+          <div class="hot" id="hot"></div>
+          <div class="panel-grid">
+            <div class="panel"><h3>Reports by category</h3><div id="barCat"></div></div>
+            <div class="panel"><h3>Reports by area</h3><div id="barArea"></div></div>
+          </div>
+          <h2>Profile update requests</h2>
+          <div class="list" id="reqList"></div>
+          <h2>Banned users</h2>
+          <div class="list" id="banList"></div>
+        </section>
         <h2 id="listTitle">My reports</h2>
+        <div class="filters hidden" id="filters">
+          <select id="fCatSel" aria-label="Category"></select>
+          <select id="fStatSel" aria-label="Status">
+            <option value="">All statuses</option>
+            <option value="new">Reported</option>
+            <option value="proc">Under process</option>
+            <option value="done">Solved</option>
+          </select>
+          <select id="fShareSel" aria-label="Shared with"></select>
+          <span class="hint" id="fLocTxt" style="margin: 0"></span>
+          <button class="geo hidden" id="clearF" type="button" style="margin: 0">Clear filters</button>
+        </div>
         <div class="list" id="list"></div>
       </main>
       <footer>
@@ -158,6 +206,12 @@
         ><textarea id="desc" placeholder="Describe the problem"></textarea>
         <label for="cat">Category</label>
         <select id="cat"></select>
+        <label for="shareTo">Share this with</label>
+        <select id="shareTo"></select>
+        <input id="shareName" class="hidden" maxlength="80" style="margin-top: 8px" aria-label="Name" />
+        <label for="referTo">Send to a specific admin <span class="opt">(optional)</span></label>
+        <input id="referTo" type="email" autocomplete="off" placeholder="admin email, e.g. dean@college.edu" />
+        <p class="hint" style="margin-top: 4px">Only that admin account will see this report. Leave empty to send it to the main admin.</p>
         <label>Location <span class="opt">(optional)</span></label>
         <select id="loc1">
           <option value="">Select area</option>
@@ -172,6 +226,23 @@
         <p class="hint" id="geoTxt"></p>
         <button class="btn" id="submit" type="button">Submit report</button>
         <p class="msg" id="rMsg" role="alert"></p>
+      </div>
+    </div>
+
+    <!-- PROFILE EDIT MODAL -->
+    <div class="overlay hidden" id="pov">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pt">
+        <button class="close" id="px" aria-label="Close">&times;</button>
+        <h2 id="pt">Edit profile</h2>
+        <p class="hint" id="pNote"></p>
+        <label for="pName">Full name</label><input id="pName" autocomplete="name" />
+        <div class="row">
+          <div><label for="pSem">Semester</label><select id="pSem"></select></div>
+          <div><label for="pPhone">Phone</label><input id="pPhone" inputmode="tel" /></div>
+        </div>
+        <label for="pContact">Contact email</label><input id="pContact" type="email" />
+        <button class="btn" id="pSubmit" type="button">Send for admin approval</button>
+        <p class="msg" id="pMsg" role="alert"></p>
       </div>
     </div>
 
